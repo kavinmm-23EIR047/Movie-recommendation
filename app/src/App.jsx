@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { Routes,Route, BrowserRouter } from "react-router-dom";
 import Listuser from "./components/Listuser";
-// import Home from "./components/Home.jsx"
+import Home from "./components/Home.jsx"
 function App() {
   // let newList =
 
@@ -84,8 +85,21 @@ function App() {
 //   </>
 
 // )
-return (
-  <Listuser/>
+// return (
+//   <Listuser/>
+// )
+
+
+return(
+  <>
+  <BrowserRouter>
+  <Routes>
+    <Route path ="/" element={<Home/>}/>
+     <Route path ="/listuser" element={<Listuser/>}/>
+
+  </Routes>
+  </BrowserRouter>
+  </>
 )
 }
 
