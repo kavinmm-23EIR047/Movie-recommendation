@@ -1,27 +1,36 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const app = express();
 
 dotenv.config();
 
 // ✅ Middleware
 app.use(cors());
-app.use(express.json()); // ✅ THIS must be before routes
+app.use(express.json());
 
 // ✅ Routes
-app.use('/api/auth', require('./routes/auth'));
 app.use('/api/search', require('./routes/search'));
 
-
-app.get("/", (req, res) => {
-  res.send("🚀 Server is running!");
+// ✅ Root route
+app.get('/', (req, res) => {
+  res.send('🚀 Server is running!');
 });
-// ✅ MongoDB connect
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('MongoDB Connected');
-    app.listen(process.env.PORT || 5000, () => console.log('Server started'));
+
+// ✅ MongoDB Connection and Server Start
+const PORT = process.env.PORT || 5000;
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  .catch(err => console.log('Mongo Error:', err));
+  .then(() => {
+    console.log('✅ MongoDB Connected');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+  });
