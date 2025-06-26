@@ -14,6 +14,10 @@ app.use(express.json()); // ✅ THIS must be before routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/search', require('./routes/search'));
 
+
+app.get("/", (req, res) => {
+  res.send("🚀 Server is running!");
+});
 // ✅ MongoDB connect
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
